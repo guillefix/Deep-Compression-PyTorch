@@ -1,6 +1,6 @@
 import argparse
 import os
-
+os.chdir("Deep-Compression-PyTorch")
 import numpy as np
 import torch
 import torch.nn as nn
@@ -37,6 +37,17 @@ parser.add_argument('--sensitivity', type=float, default=2,
                     help="sensitivity value that is multiplied to layer's std in order to get threshold value")
 args = parser.parse_args()
 
+args = lambda: None
+setattr(args,"batch_size",50)
+setattr(args,"test_batch_size",1000)
+setattr(args,"epochs",50)
+setattr(args,"lr",0.01)
+setattr(args,"no_cuda",False)
+setattr(args,"seed",42)
+setattr(args,"log_interval",10)
+setattr(args,"log","log.txt")
+setattr(args,"sensitivity",2)
+
 # Control Seed
 torch.manual_seed(args.seed)
 
@@ -65,6 +76,19 @@ test_loader = torch.utils.data.DataLoader(
                    ])),
     batch_size=args.test_batch_size, shuffle=False, **kwargs)
 
+d=datasets.MNIST('data', train=True, download=True, transform=transforms.Compose([transforms.ToTensor(),transforms.Normalize((0.1307,), (0.3081,))]))
+
+#%%
+
+import inspect
+
+[name for name,thing in inspect.getmembers(d)]
+
+d.data.shape
+
+d.targets =
+
+torch.Tensor([1]*d.targets.shape[0])
 
 # Define which model to use
 model = LeNet(mask=True).to(device)
